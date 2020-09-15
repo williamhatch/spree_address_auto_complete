@@ -1,5 +1,7 @@
 module Spree::Admin::Orders::CustomerDetailsControllerDecorator
-  include Spree::AddressSearchHelper
+  def self.prepended(base)
+    base.include Spree::AddressSearchHelper
+  end
 end
 
 if defined?(Spree::Admin::Orders::CustomerDetailsController)
