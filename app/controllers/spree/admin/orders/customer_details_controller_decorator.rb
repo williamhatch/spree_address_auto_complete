@@ -1,5 +1,5 @@
 module Spree::Admin::Orders::CustomerDetailsControllerDecorator
-  helper Spree::AddressSearchHelper
+  include Spree::AddressSearchHelper
 end
 
 if defined?(Spree::Admin::Orders::CustomerDetailsController)
