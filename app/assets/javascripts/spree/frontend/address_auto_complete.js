@@ -24,7 +24,6 @@ AddressAutoComplete.prototype.fillInAddress = function (autocomplete) {
     var place = autocomplete.getPlace();
     var addressComponents = place.address_components.reverse();
     var addressOneComponentsLength = 0
-    console.log(addressComponents)
     for (address_component_index in addressComponents) {
 
         var addressType = addressComponents[address_component_index].types[0];
@@ -37,7 +36,7 @@ AddressAutoComplete.prototype.fillInAddress = function (autocomplete) {
             this.updateCountry(addressLongName);
         } else if (addressType == 'administrative_area_level_1') {
             this.updateState(addressLongName);
-        } else if (addressType == 'locality') {
+        } else if (addressType == 'locality' || addressType =='sublocality_level_1') {
             this.setCity(addressLongName);
         } else if (addressType == 'street_number' || addressType == 'route') {
             if (addressOneComponentsLength < 2) {
