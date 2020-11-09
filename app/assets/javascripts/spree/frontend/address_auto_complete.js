@@ -11,11 +11,16 @@ AddressAutoComplete = function (searchInputSelector, addressType) {
     };
 }
 
-AddressAutoComplete.prototype.init = function () {
+AddressAutoComplete.prototype.init = function (listener) {
     var _this = this;
     this.autocomplete = new google.maps.places.Autocomplete(this.searchInput, {});
-    this.autocomplete.addListener('place_changed', function () {
+    google.maps.event.addListener(this.autocomplete, 'place_changed', function() {
         _this.fillInAddress(this);
+    });
+
+    //Reset the inpout box on click
+    input.addEventListener('click', function(){
+        input.value = "";
     });
 }
 
@@ -25,20 +30,17 @@ AddressAutoComplete.prototype.fillInAddress = function (autocomplete) {
     var addressComponents = place.address_components.reverse();
     var addressOneComponentsLength = 0
     for (address_component_index in addressComponents) {
-
         var addressType = addressComponents[address_component_index].types[0];
         var addressLongName = addressComponents[address_component_index]['long_name'];
-        var addressShortName = addressComponents[address_component_index]['short_name'];
-
-        if (addressType == 'postal_code') {
+        if (addressType === 'postal_code') {
             this.formComponents['postal_code'].val(addressLongName);
-        } else if (addressType == 'country') {
+        } else if (addressType === 'country') {
             this.updateCountry(addressLongName);
-        } else if (addressType == 'administrative_area_level_1') {
+        } else if (addressType === 'administrative_area_level_1') {
             this.updateState(addressLongName);
-        } else if (addressType == 'locality' || addressType =='sublocality_level_1') {
+        } else if (addressType === 'locality' || addressType === 'sublocality_level_1') {
             this.setCity(addressLongName);
-        } else if (addressType == 'street_number' || addressType == 'route') {
+        } else if (addressType === 'street_number' || addressType === 'route') {
             if (addressOneComponentsLength < 2) {
                 this.setAddress(1, addressLongName);
                 addressOneComponentsLength++
