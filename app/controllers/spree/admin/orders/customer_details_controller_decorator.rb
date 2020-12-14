@@ -1,6 +1,6 @@
 module Spree::Admin::Orders::CustomerDetailsControllerDecorator
   def self.prepended(base)
-    base.include Spree::AddressSearchHelper
+    base.include SpreeAddressAutoComplete::Spree::AddressSearchHelper
   end
 end
 
